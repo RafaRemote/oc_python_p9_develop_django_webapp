@@ -1,0 +1,234 @@
+
+html, body {
+    border: 0;
+    margin: 10vh 0 0 0;
+    height: 100%;
+    background-color: rgba(153,181,219,1);
+}
+
+a{
+    text-decoration: none;
+    margin-right: 1rem;
+    color: #fff
+}
+
+a:visited {
+    color: #fff;
+}
+
+nav{
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-shadow: 0px 0px 5px #000;
+    border-bottom: 1px solid black;
+    display: flex;
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+}
+
+.navbar-title{
+    font-size: .9rem;
+    width: 60%;
+    text-align: right;
+}
+
+.navbar-satellites{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    font-size: .4rem;
+}
+
+.log{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:2rem;
+    margin: 1rem;
+}
+
+
+.login-form-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 20vh;
+    width: 40vw;
+}
+
+
+#form-register{
+    padding-top: 1rem;
+}
+
+#create-ticket{
+    width: 60vw;
+    margin: 2.5rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#create-ticket-form{
+    display: flex;
+    flex-direction: column;
+}
+
+#create-ticket-title {
+    height: 1rem;
+    width: 60vw;
+}
+
+#create-ticket-description {
+    height: 10rem;
+}
+
+.text-center {
+    text-align: center;
+    margin: auto;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+#no_user {
+    margin:10vh auto;
+    display: flex;
+    height: 10vh;
+    color: #fff;
+    font-weight: bold;
+}
+
+input {
+    padding: 1rem;
+    margin: .5rem;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.buttons-login{
+    width: 100%;
+}
+
+#register-button{ 
+    justify-self: start;
+}
+
+h3, h4 {
+    text-align: center;
+}
+
+
+.log-container{ 
+    height: 15vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+#form-login{ 
+    justify-content: space-around;
+}
+
+.messages {
+    background-color: red;
+    border-radius: 5px;
+    padding-right: 1.5rem;
+    height: 10vh;
+    margin: auto;
+}
+
+#login-button{
+    align-self: end;
+}
+
+#submit-image-button {
+    margin-left: 0;
+    align-self: flex-start;
+}
+
+#submit-ticket-button {
+    align-self: flex-end;
+}
+
+#creer-critique-button{
+    margin-top: 5rem;
+    width: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flux{
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket, .review {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 5rem auto;
+    padding: 1rem;
+    background-color: rgba(0,0,0,0.05);
+    backdrop-filter: blur(2px);
+}
+
+.ticket-header, .review-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.ticket-footer, .review-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.review-upper-body{
+    display: flex;
+    flex-direction: row;
+}
+
+.review-lower-body{
+    border:1px solid black;
+    width: 90%;
+    margin: auto;
+}
+
+.ticket_div {
+    background-color: rgba(255,255,255,0.5);
+    border: 2px solid black;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width: 70vw;
+    margin: .5rem auto;
+}
+
+.ticket_left_part {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.ticket_right_part {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0.5rem;
+}

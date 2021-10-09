@@ -1,0 +1,16 @@
+<nav>
+    <div class="navbar-title">
+        <a href="/">
+            <h1>LITReview</h1>
+            <p>{{request.user}}</p>
+        </a>
+    </div>
+    {% if user.is_authenticated %}
+        <div class="navbar-satellites">
+            <a href="{% url 'flux' %}">Flux</a>
+            <a href="{% url 'own' %}">Posts</a>
+            <a href="{% url 'abo' %}">Abonnements</a>
+            <a href="{% url 'login' %}">Se déconnecter</a>
+        </div>
+    {% endif %}
+</nav>

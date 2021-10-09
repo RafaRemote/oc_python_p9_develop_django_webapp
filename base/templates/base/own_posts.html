@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<h1>Own Posts</h1>
+   
+
+{% for post in all_posts%}
+
+    {% if post.title %}
+
+        <div class="ticket">
+            <div class="ticket-header">
+                <p>Vous avez publié un ticket</p>
+                <p class="text-align-right">{{post.time_created}}</p>
+            </div>
+            <div class="ticket-body">
+                <p>{{post.title}}</p>
+                <img src="{{post.image}}" alt="image" />
+            </div>
+            <div class="ticket-footer">
+                <input type="submit" value="Modifier" />
+                <input type="submit" value="Supprimer" />
+            </div>
+        </div>
+    {% else %}
+        <div class="review">
+            <div class="review-header">
+                <p>Vous avez publié une critique</p>
+                <p class="text-align-right">{{post.time_created}}</p>
+            </div>
+            <div class="review-upper-body">
+                <p>{{post.headline}} - </p>
+                <p>
+                    {% for i in post.rating %} 
+                        <i class="fas fa-star"></i>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class-"middle-body">
+                <p>{{post.body}}</p>
+            </div>
+            <div class="review-lower-body">
+                <p>Ticket - {{post.ticket.user}}</p>
+                <p>{{post.ticket.title}}</p>
+                <img src="{{post.ticket.image}}" alt="ticket-image" />
+            </div>
+            <div class="review-footer">
+                <input type="submit" value="Modifier" />
+                <input type="submit" value="Supprimer" />
+            </div>
+        </div>
+    {% endif %}
+
+        
+
+{% endfor %}
+
+
+{%endblock content%}

@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="log-container">
+        <div class="log" >
+            <h3>Inscrivez-vous maintenant</h3>
+            <form id="form-register" class="login-form-container" method="POST" action="{% url 'register'%}">
+                {% csrf_token %}
+                <input id="register-button" type="submit" name="register" value="S'inscrire" />
+            </form>
+        </div>
+        <div class="log">
+            <h3>Connectez-vous</h3>
+            <form id="form-login" class="login-form-container" method="POST" action="">
+                {% csrf_token %}
+                <input class="buttons-login" type="text" name="username" placeholder="Nom d'utilisateur"/>
+                <input class="buttons-login" type="password" name="password" placeholder="Mot de passe"/>
+                <input id="login-button" type="submit" name="login" value="Se connecter"/>
+            </form>
+        </div>
+    </div>
+    <div id="no_user">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock content%}}

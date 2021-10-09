@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static%}
+<div class="log-container">
+    <div class="log" >
+        <form class="login-form-container" method="POST" action="{% url 'ticket'%}">
+            {% csrf_token %}
+            <input type="submit" name="register" value="Demander une critique" />
+        </form>
+    </div>
+    <div class="log">
+        <form class="login-form-container" method="POST" action="{% url 'critique'%}">
+            {% csrf_token %}
+            <input type="submit" name="login" value="Créer une critique"/>
+        </form>
+    </div>
+</div>
+<div class="flux">
+    {% if noitem == True %}
+        <h1 class="text-center">Il n'y a encore rien à afficher...</h1>
+    {% else %}
+        {% for obj in all_obj %}
+            {% if obj.title %}
+                <div class="ticket_div">
+                    <div class="ticket_left_part">
+                        <p> {{obj.user}} a demandé une critique </p>
+                        <p>{{obj.title}}</p>
+                        <p>{{obj.description}}</p>
+                        <p>{{obj.image}}</p>
+                        <img src="{% static '{{obj.image}}' %}" alt="ticket picture: {{obj.image}}" />
+                    </div>
+                    <div class="ticket_right_part">
+                        {{obj.time_created}}
+                        <form method="POST" action="{% url 'critique' %}">
+                            <input id="creer-critique-button" type="submit" value="Créer une critique" />
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="review_div">
+                    
+                </div>
+            {% endif%}
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock content%}}
