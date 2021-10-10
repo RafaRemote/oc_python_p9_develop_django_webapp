@@ -25,7 +25,9 @@ PRODUCT_CHOICES = (
 )
 
 class Ticket(models.Model):
-    title = models.CharField(max_length=128),
+    title = models.CharField(max_length=128,
+                             blank=True
+                             )
     description = models.TextField(max_length=2048,
                                    blank=True
                                    )
@@ -37,9 +39,6 @@ class Ticket(models.Model):
                               blank=True
                               )
     time_created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
 
 class Review(models.Model):
