@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Ticket, Review, UserFollows
 from .forms import TicketForm, ReviewForm
@@ -8,7 +9,6 @@ from .forms import TicketForm, ReviewForm
 # Create your views here.
 
 def loginPage(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -32,9 +32,12 @@ def register(request):
     context = {}
     return render(request, 'base/register.html', context)
 
+@login_required(login_url='/')
 def flux(request):
     tickets = Ticket.objects.all()
     reviews = Review.objects.all()
+    for dico in reviews:
+        dico.rating = [i for i in range(dico.rating)]
     all_obj = []
     [all_obj.append(ticket) for ticket in tickets]
     [all_obj.append(review) for review in reviews]
@@ -45,9 +48,11 @@ def flux(request):
     context = {'all_obj': all, 'noitem': noitem}
     return render(request, 'base/flux.html', context)
 
+@login_required(login_url='/')
 def abo(request):
     return render(request, 'base/abo.html')
 
+@login_required(login_url='/')
 def create_ticket(request):
     ticketForm = TicketForm()
     if request.method == "POST":
@@ -58,6 +63,7 @@ def create_ticket(request):
     context = {'ticketForm': ticketForm}
     return render(request, 'base/create_ticket.html', context)
 
+@login_required(login_url='/')
 def update_own_ticket(request, pk):
     ticket = Ticket.objects.get(id=pk)
     form = TicketForm(instance=ticket)
@@ -65,6 +71,7 @@ def update_own_ticket(request, pk):
     context = {}
     return render(request, 'base/modify_own_ticket.html', context)
 
+@login_required(login_url='/')
 def create_critique(request):
     reviewForm = ReviewForm()
     if request.method == "POST":
@@ -75,24 +82,30 @@ def create_critique(request):
     context = {'reviewForm': reviewForm}
     return render(request, 'base/create_critique.html', context)
 
+@login_required(login_url='/')
 def answer_ticket(request):
     return render(request, 'base/answer_ticket.html')
 
+@login_required(login_url='/')
 def own_posts(request):
-    tickets = Ticket.objects.all()
-    reviews = Review.objects.all()
-    ticket = Ticket.objects.filter(user=request.user)
-    review = Review.objects.filter(user=request.user)
+    tickets = Ticket.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user)
     all_posts = []
-    for dico in review:
+    for dico in reviews:
         dico.rating = [i for i in range(dico.rating)]
-    [all_posts.append(i) for i in ticket]
-    [all_posts.append(i) for i in review]
+    [all_posts.append(i) for i in tickets]
+    [all_posts.append(i) for i in reviews]
     all = sorted(all_posts, key=lambda x: x.time_created, reverse=True)
-    context = { 'all_posts': all, 'tickets': tickets, 'reviews': reviews }
+    context = { 'all_posts': all }
     return render(request, 'base/own_posts.html', context)
 
+@login_required(login_url='/')
 def update_own_critique(request):
     return render(request, 'base/update_own_critique.html')
 
     # 1:56:20 update
+
+@login_required(login_url='/')
+def logoutUser(request):
+    logout(request)
+    return redirect('/')

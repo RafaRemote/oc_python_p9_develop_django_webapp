@@ -1,16 +1,39 @@
 <nav>
+    {% if user.is_authenticated %}
+        <p class="logged-user">User connected: {{ user }}</p>
+    {% else %}
+        <p class="logged-user">User connected: None</p>
+    {% endif %}
     <div class="navbar-title">
         <a href="/">
             <h1>LITReview</h1>
-            <p>{{request.user}}</p>
         </a>
     </div>
     {% if user.is_authenticated %}
         <div class="navbar-satellites">
-            <a href="{% url 'flux' %}">Flux</a>
-            <a href="{% url 'own' %}">Posts</a>
-            <a href="{% url 'abo' %}">Abonnements</a>
-            <a href="{% url 'login' %}">Se déconnecter</a>
+            {% if request.get_full_path == "/flux/" %}
+                <a href="{% url 'flux' %}" class="active">Flux</a>
+            {% else %}
+                <a href="{% url 'flux' %}">Flux</a>
+            {% endif %}
+            
+            {% if request.get_full_path == "/own-posts/" %}
+                <a href="{% url 'own' %}" class="active">Posts</a>
+            {% else %}
+                <a href="{% url 'own' %}">Posts</a>
+            {% endif %}
+            
+            {% if request.get_full_path == "/abo/" %}
+                <a href="{% url 'abo' %}" class="active">Abonnements</a>
+            {% else %}
+                <a href="{% url 'abo' %}">Abonnements</a>
+            {% endif %}
+            
+            {% if request.get_full_path == "/" %}
+                <a href="{% url 'logout' %}" class="active">Se déconnecter</a>
+            {% else %}
+                <a href="{% url 'logout' %}">Se déconnecter</a>
+            {% endif %}
         </div>
     {% endif %}
 </nav>

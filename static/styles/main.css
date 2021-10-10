@@ -2,8 +2,15 @@
 html, body {
     border: 0;
     margin: 10vh 0 0 0;
+    box-sizing: content-box;
     height: 100%;
     background-color: rgba(153,181,219,1);
+    font-family: arial, helvetica, Verdana, sans-serif;
+}
+
+.main-container {
+    width: 50%;
+    margin: auto;
 }
 
 a{
@@ -16,12 +23,24 @@ a:visited {
     color: #fff;
 }
 
+.active {
+    text-decoration: underline;
+    text-decoration-thickness: 1rem;
+    text-decoration-color: red;
+
+}
+
 nav{
     z-index: 1;
     position: fixed;
     top: 0;
     width: 100%;
-    text-shadow: 0px 0px 5px #000;
+    height: 5rem;
+    text-shadow:
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
     border-bottom: 1px solid black;
     display: flex;
     background: #1e5799; /* Old browsers */
@@ -33,40 +52,42 @@ nav{
 
 .navbar-title{
     font-size: .9rem;
-    width: 60%;
+    width: 55%;
     text-align: right;
 }
 
+nav h1 {
+     font-size: 2rem;
+     text-shadow:
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        0px 0px 3px #fff
+}
+
+.logged-user {
+    color: white;
+    text-align: left;
+    margin-left: 1rem;
+    text-shadow:
+    -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    0px 0px 3px #fff;
+}
+
 .navbar-satellites{
-    width: 40%;
+    width: 45%;
     display: flex;
     align-items: center;
     justify-content: end;
-    font-size: .4rem;
-}
-
-.log{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding:2rem;
-    margin: 1rem;
+    /* font-size: .4rem; */
 }
 
 
-.login-form-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 20vh;
-    width: 40vw;
-}
 
-
-#form-register{
-    padding-top: 1rem;
-}
 
 #create-ticket{
     width: 60vw;
@@ -105,11 +126,15 @@ nav{
 }
 
 #no_user {
-    margin:10vh auto;
+    margin:2vh auto;
     display: flex;
     height: 10vh;
+}
+
+#no_user p {
     color: #fff;
     font-weight: bold;
+    text-shadow: 0px 0px 10px rgba(0,0,0);
 }
 
 input {
@@ -119,35 +144,45 @@ input {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
-.buttons-login{
-    width: 100%;
-}
-
-#register-button{ 
-    justify-self: start;
-}
-
 h3, h4 {
     text-align: center;
 }
 
-
 .log-container{ 
-    height: 15vh;
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
-#form-login{ 
-    justify-content: space-around;
+.log{
+    width: 50%;
+    margin: .1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
+
+.log input {
+    width: 80%;
+}
+
+.log:last-child input:last-child {
+    position: relative;
+    width: 50%;
+    left: 40%;
+
+}
+
 
 .messages {
     background-color: red;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding-right: 1.5rem;
     height: 10vh;
     margin: auto;
+    text-align: center;
 }
 
 #login-button{
@@ -178,16 +213,24 @@ h3, h4 {
 
 .ticket, .review {
     border: 1px solid black;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 100%;
     margin: 5rem auto;
     padding: 1rem;
-    background-color: rgba(0,0,0,0.05);
-    backdrop-filter: blur(2px);
+    background-color: rgb(200, 181, 219, .25);
+
+}
+
+.review {
+    background-color: rgba(255, 231, 183.25)
 }
 
 .ticket-header, .review-header {
+    background-color: rgba(0, 0, 0, 0.10);
+    padding: .5rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -205,30 +248,49 @@ h3, h4 {
 
 .review-lower-body{
     border:1px solid black;
+    border-radius: 5px;
     width: 90%;
     margin: auto;
+    padding: 1rem;
+    background-color: rgb(179, 166, 221, .25);
 }
 
-.ticket_div {
-    background-color: rgba(255,255,255,0.5);
-    border: 2px solid black;
-    border-radius: 5px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    width: 70vw;
-    margin: .5rem auto;
-}
 
-.ticket_left_part {
+.ticket_left_part, .review_left_part {
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
 }
 
-.ticket_right_part {
+.ticket_right_part, .review_right_part {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: flex-start;
     padding: 0.5rem;
+}
+
+.red {
+    background-color: rgba(255,0,0,.8)
+}
+
+.ticket-form {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    width: 50%;
+    margin: 5rem auto;
+    padding: 1rem;
+    background-color: rgb(200, 181, 219, .25);
+}
+
+form > input {
+    position: relative;
+    right: 0;
+}
+
+.width-100 {
+    width: 100%;
 }
