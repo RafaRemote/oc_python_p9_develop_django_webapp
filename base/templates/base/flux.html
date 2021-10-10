@@ -3,16 +3,18 @@
 {% block content %}
 
 <div class="main-container">
-    <div class="log-container">
-        <div class="log" >
+    <div class="flux-log-container">
+        <div>
             <form method="POST" action="{% url 'ticket'%}">
                 {% csrf_token %}
+
                 <input type="submit" name="register" value="Demander une critique" />
             </form>
         </div>
-        <div class="log">
+        <div>
             <form method="POST" action="{% url 'critique'%}">
                 {% csrf_token %}
+
                 <input type="submit" name="login" value="Créer une critique"/>
             </form>
         </div>

@@ -1,17 +1,17 @@
 {% extends 'main.html' %}
 
 {% block content %}
+<div class="create-ticket">
+    <h1 class="text-center">Créer une critique</h1>
+    <form method="post" action="">
+        {% csrf_token%}
 
-<h1 class="text-center">Créer une critique</h1>
-
-<div>
-    <form method="POST" action="">
-        {% csrf_token %}
         {{reviewForm.as_p}}
 
-        <input type="submit" value="Envoyer"/>
-
+        <input type="submit" value="Submit" />
     </form>
 </div>
 
 {% endblock content %}
+
+

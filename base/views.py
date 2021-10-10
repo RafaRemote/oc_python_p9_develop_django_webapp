@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Ticket, Review, UserFollows
+from .models import Ticket, Review, UserFollow
 from .forms import TicketForm, ReviewForm
 
-# Create your views here.
 
 def loginPage(request):
+    page = 'login'
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -25,12 +25,8 @@ def loginPage(request):
             return redirect('flux')
         else:
             messages.error(request, 'Username or password is incorrect.')
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
-
-def register(request):
-    context = {}
-    return render(request, 'base/register.html', context)
 
 @login_required(login_url='/')
 def flux(request):
@@ -56,6 +52,7 @@ def abo(request):
 def create_ticket(request):
     ticketForm = TicketForm()
     if request.method == "POST":
+        print(request.POST)
         ticketForm = TicketForm(request.POST)
         if ticketForm.is_valid():
             ticketForm.save()
@@ -73,12 +70,24 @@ def update_own_ticket(request, pk):
 
 @login_required(login_url='/')
 def create_critique(request):
-    reviewForm = ReviewForm()
-    if request.method == "POST":
-        reviewForm = ReviewForm(request.POST)
-        if reviewForm.is_valid():
-            reviewForm.save()
-            return redirect('flux')
+    reviewForm = ReviewForm(request.POST, request.FILES or None)
+    if request.method == 'POST' and request.POST.get('product_type') != None:
+        print('--------------------------------------------------------')
+        print('--------------------------------------------------------')
+        print('--------------------------------------------------------')
+        print('--------------------------------------------------------')
+        actualuser = User.objects.get(username=request.user)
+        review = Review.objects.create(
+            product_type = request.POST.get('product_type'),
+            product_description = request.POST.get('product_description'),
+            product_image = request.POST.get('produt_image'),
+            rating = request.POST.get('rating'),
+            headline = request.POST.get('headline'),
+            user = actualuser,
+            body = request.POST.get('body')            
+        )
+        review.save()
+        return redirect('flux')
     context = {'reviewForm': reviewForm}
     return render(request, 'base/create_critique.html', context)
 
@@ -105,7 +114,12 @@ def update_own_critique(request):
 
     # 1:56:20 update
 
-@login_required(login_url='/')
+
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+def register(request):
+    page = "register"
+    context = {}
+    return render(request, 'base/register.html', context)

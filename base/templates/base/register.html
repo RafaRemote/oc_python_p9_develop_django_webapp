@@ -2,5 +2,23 @@
 
 
 {% block content %}
-<h1>Register</h1>
+
+<div class="main-container">
+    <div class="register">
+        <h1 class="text-center">Register</h1>
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <div class="register-footer">
+                <div class="register-footer-block">
+                    <a href = {% url 'login' %}>Retourner</a>
+                </div>
+                <div class="register-footer-block">
+                    <input type="submit" value="S'inscrire" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 {%endblock content%}

@@ -1,9 +1,11 @@
 <nav>
-    {% if user.is_authenticated %}
-        <p class="logged-user">User connected: {{ user }}</p>
-    {% else %}
-        <p class="logged-user">User connected: None</p>
-    {% endif %}
+    <div class="navbar-auth">
+        {% if user.is_authenticated %}
+            <p class="logged-user">User connected: {{ user }}</p>
+        {% else %}
+            <p class="logged-user">User connected: None</p>
+        {% endif %}
+    </div>
     <div class="navbar-title">
         <a href="/">
             <h1>LITReview</h1>
@@ -29,10 +31,10 @@
                 <a href="{% url 'abo' %}">Abonnements</a>
             {% endif %}
             
-            {% if request.get_full_path == "/" %}
-                <a href="{% url 'logout' %}" class="active">Se déconnecter</a>
+            {% if request.get_full_path == "/" and user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="active">Se connecter</a>
             {% else %}
-                <a href="{% url 'logout' %}">Se déconnecter</a>
+                <a href="{% url 'login' %}">Se déconnecter</a>
             {% endif %}
         </div>
     {% endif %}

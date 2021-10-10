@@ -2,20 +2,18 @@
 
 {% block content %}
 
-<h1 class="text-center">Créer un ticket</h1>
+<div class="create-ticket">
+    <h1 class="text-center">Créer un ticket</h1>
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
 
-<div class="ticket-form">
-    <form method="POST" action="">
-        {% csrf_token %}
-        <p>Titre</p>
-        <p>{{ticketForm.title}}</p>
-        <p>Description</p>
-        <p class="width-100">{{ticketForm.description}}</p>
-        <p>Image</p>
-        <p>{{ticketForm.image}}</p>
-        <input type="submit" value="Envoyer"/>
-    </form>
+            {{productForm.as_p}}
+
+        </form>
+    </div>
 </div>
+<hr/>
 
 
 {% endblock content %}
