@@ -7,9 +7,15 @@
         {% endif %}
     </div>
     <div class="navbar-title">
-        <a href="/">
-            <h1>LITReview</h1>
-        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'flux' %}"%>
+                <h1>LITReview</h1>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">
+                <h1>LITReview</h1>
+            </a>
+        {% endif %}
     </div>
     {% if user.is_authenticated %}
         <div class="navbar-satellites">
@@ -32,9 +38,9 @@
             {% endif %}
             
             {% if request.get_full_path == "/" and user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="active">Se connecter</a>
+                <a href="{% url 'login' %}" class="active">Se connecter</a>
             {% else %}
-                <a href="{% url 'login' %}">Se déconnecter</a>
+                <a href="{% url 'logout' %}">Se déconnecter</a>
             {% endif %}
         </div>
     {% endif %}

@@ -47,37 +47,37 @@ class Review(models.Model):
                                null=True,
                                blank=True
                                )
-    product_type = models.CharField(max_length=8,
+    type_produit = models.CharField(max_length=8,
                                     choices=PRODUCT_CHOICES,
                                     default="Livre"
                                     )
-    product_title = models.CharField(max_length=128,
-                                     null=False,
-                                     blank=True
+    titre_produit = models.CharField(max_length=128
                                     )
-    product_description = models.TextField(max_length=8192,
+    description_produit = models.TextField(max_length=8192,
                                            null=True,
                                            blank=True
                                            )
-    product_image = models.ImageField(upload_to='static/images/',
-                                      null=True,
-                                      blank=True
-                                      )
-    rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)],
-                                              blank=True
-                                              )
-    headline = models.CharField(max_length=128,
+    image_produit = models.ImageField(upload_to ='images',
+                                     null=True,
+                                     blank=True,
+                                     )
+    note = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)],
+                                            blank=True
+                                            )
+    titre_critique = models.CharField(max_length=128,
                                 blank=True    
     )
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True
                              )
-    body = models.TextField(max_length=8192,
+    description_critique = models.TextField(max_length=8192,
                             null=True,
                             blank=True
                             )
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.ticket} ==> {self.headline}'
+        return f'{self.ticket} ==> {self.titre_produit}'
     

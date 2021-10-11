@@ -11,4 +11,14 @@ class TicketForm(ModelForm):
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        exclude = ['ticket', 'user']
+        fields = [
+            'type_produit',
+            'titre_produit',
+            'description_produit',
+            'image_produit',
+            'note',
+            'titre_critique',
+            'description_critique'
+        ]
+
+

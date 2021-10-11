@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="main-container">
+    <h1 class="page-title">Flux</h1>
     <div class="flux-log-container">
         <div>
             <form method="POST" action="{% url 'ticket'%}">
@@ -50,10 +51,14 @@
                             <p>{{obj.user}} publié une critique</p>
                             <p class="text-align-right">{{obj.time_created}}</p>
                         </div>
+                        <p> Type Produit: {{obj.type_produit}}</p>
+                        <p> Titre de la critique : "<i>{{obj.titre_critique}}</i>" </p>
+                        <p> /media/{{obj.image_produit}} </p>
+                        <p> Illustration: <img src="/media/{{obj.image_produit}}"  width="300px" height="auto" alt="illustration produit"/> </p>
                         <div class="review-upper-body">
-                            <p>{{obj.headline}} - </p>
+                            <p>Note - </p>
                             <p>
-                                {% for i in obj.rating %} 
+                                {% for i in obj.note %} 
                                     <i class="fas fa-star"></i>
                                 {% endfor %}
                             </p>
@@ -62,9 +67,13 @@
                             <p>{{obj.body}}</p>
                         </div>
                         <div class="review-lower-body">
-                            <p>Ticket - {{obj.ticket.user}}</p>
-                            <p>{{obj.ticket.title}}</p>
-                            <img src="{{obj.ticket.image}}" alt="ticket-image" />
+                            {% if obj.ticket %}
+                                <p>Ticket by {{obj.ticket.user}}</p>
+                                <p>{{obj.ticket.title}}</p>
+                                <img src="{{obj.image_produit}}" width="300px" height="auto" alt="ticket-image" />
+                            {% else %}
+                                <p class="text-center">Il n'y pas eu de ticket pour cette critique</p>
+                            {% endif %}
                         </div>
                         <div class="review-footer">
                             <input type="submit" value="Modifier" />

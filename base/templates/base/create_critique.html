@@ -1,15 +1,23 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div class="create-ticket">
-    <h1 class="text-center">Créer une critique</h1>
-    <form method="post" action="">
-        {% csrf_token%}
 
-        {{reviewForm.as_p}}
+<div class="main-container">
+    <h1 class="page-title">Créer une critique</h1>
 
-        <input type="submit" value="Submit" />
-    </form>
+    {% if message %}
+        <p>{{message}}</p>
+    {% endif %}
+
+    <div class="review">
+        <form enctype="multipart/form-data" method="post" action="">
+            {% csrf_token%}
+
+            {{reviewForm.as_p}}
+
+            <input type="submit" name"submit" value="Submit" />
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

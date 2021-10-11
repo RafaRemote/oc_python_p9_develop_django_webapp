@@ -2,5 +2,23 @@
 
 
 {% block content %}
-<h1>Modify Own Critiques</h1>
+<div class="main-container">
+    <h1 class="page-title">Modifiez votre critique</h1>
+    <div class="review">
+        <p>Vous modifiez la critique pour un "<b>{{review.type_produit}}</b>"</p>
+        <p>Dont le titre est "<i><b>{{review.titre_produit}}</i></b>"</p>
+        <form method="post">
+            {% csrf_token%}
+
+            <p>Type Produit: {{reviewForm.type_produit}}
+            <p>Titre Produit: {{reviewForm.titre_produit}}
+            <p>Description Produit: {{reviewForm.description_produit}}
+            <p>Image Produit: {{reviewForm.image_produit}}
+            <p>Note : {{reviewForm.note}}
+            <p>Titre Critique: {{reviewForm.titre_critique}}
+            <p>Description Critique: {{reviewForm.description_critique}}
+            <input type="submit" name="{{request}}" value='envoyer' />
+        </form>
+    </div>
+</div>
 {%endblock content%}

@@ -4,7 +4,13 @@
 
 <div class="main-container">
 
-    <h1 class="text-center">Vos posts</h1>
+    <h1 class="text-center page-title">{{request.user}}, voici vos publications !</h1>
+
+    {% if noitem %}
+        <div class="messages">
+            <p>Vous n'avez encore rien publié... :'(</p>
+        </div>
+    {% endif %}
 
     {% for post in all_posts%}
         {% if post.title %}
@@ -15,6 +21,7 @@
                 </div>
                 <div class="ticket-body">
                     <p>{{post.title}}</p>
+                    <p>{{post.image}}</p>
                     <img src="{{post.image}}" alt="image" />
                 </div>
                 <div class="ticket-footer">
@@ -23,34 +30,54 @@
                 </div>
             </div>
         {% else %}
-            <div class="review">
-                <div class="review-header">
-                    <p>Vous, {{post.user}}, avez publié une critique</p>
-                    <p class="text-align-right">{{post.time_created}}</p>
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="review">
+                    <div class="review-header">
+                        <p>Vous avez publié une critique</p>
+                        <p class="text-align-right">{{post.time_created}}</p>
+                    </div>
+                    <p>Type de produit: {{post.type_produit}}</p>
+                    <p>Titre du produit: {{post.titre_produit}}</p>
+                    <p>Titre de la critique: "<i>{{post.titre_critique}}</i>"</p>
+                    <p>Illustration: <img src="/media/{{post.image_produit}}" width="300px" height="auto" alt="illustration produit" /></p>
+                    <div class="review-upper-body">
+                        <p>Note - </p>
+                        <p>
+                            {% for i in post.note %} 
+                                <i class="fas fa-star"></i>
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class-"middle-body">
+                        <p>{{post.description_produit}}</p>
+                    </div>
+                    <div class="review-lower-body">
+                        {% if post.ticket %}
+                            <p>Ticket - {{post.ticket.user}}</p>
+                            <p>{{post.ticket.title}}</p>
+                            <p><img src="{{post.image_produit}}" width="200px" height="auto" alt="illustration produit" /></p>
+                        {% else %}
+                            <p class="text-center">Cette critique a été créée spontanément.</p>
+                            <p class="text-center">Il n'y a pas eu de ticket pour ce produit.</p>
+                        {% endif%}
+                    </div>
+                    <div class="review-footer">
+                        <input type="submit" name="{{post.pk}}{{post.type_produit}}" value="modifier" />
+                        <input type="submit" name="{{post.pk}}{{post.type_produit}}" value="supprimer" />
+                    </div>
                 </div>
-                <div class="review-upper-body">
-                    <p>{{post.headline}} - </p>
-                    <p>
-                        {% for i in post.rating %} 
-                            <i class="fas fa-star"></i>
-                        {% endfor %}
-                    </p>
-                </div>
-                <div class-"middle-body">
-                    <p>{{post.body}}</p>
-                </div>
-                <div class="review-lower-body">
-                    <p>Ticket - {{post.ticket.user}}</p>
-                    <p>{{post.ticket.title}}</p>
-                    <img src="{{post.ticket.image}}" alt="ticket-image" />
-                </div>
-                <div class="review-footer">
-                    <input type="submit" value="Modifier" />
-                    <input type="submit" value="Supprimer" />
-                </div>
-            </div>
+            </form>
         {% endif %}
     {% endfor %}
 </div>
 
 {%endblock content%}
+
+
+{% comment %} 
+
+<a href="{{request.META.HTTP_REFERRER}}">Retourner</a>
+
+ {% endcomment %}

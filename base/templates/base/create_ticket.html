@@ -1,19 +1,22 @@
 {% extends 'main.html' %}
 
 {% block content %}
+<div class="main-container">
+    <h1 class="page-title">Créer une critique</h1>
 
-<div class="create-ticket">
-    <h1 class="text-center">Créer un ticket</h1>
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
+    <div class="create-ticket">
+        <h1 class="text-center">Créer un ticket</h1>
+        <div>
+            <form method="POST" action="">
+                {% csrf_token %}
 
-            {{productForm.as_p}}
+                {{ticketForm.as_p}}
 
-        </form>
+            </form>
+        </div>
     </div>
+    <hr/>
 </div>
-<hr/>
 
 
 {% endblock content %}

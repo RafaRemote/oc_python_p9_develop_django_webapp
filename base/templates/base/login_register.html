@@ -3,12 +3,14 @@
 {% block content %}
 
 <div class="main-container">
+    <h1 class="page-title">Bienvenue !</h1>
     <div class="log-container">
         <div class="log">
             <p>Inscrivez-vous maintenant</p>
             <p>
                 <form id="form-register" method="POST" action="{% url 'register'%}">
                     {% csrf_token %}
+
                     <input type="submit" name="register" value="S'inscrire" />
                 </form>
             </p>
@@ -18,21 +20,13 @@
             <p>
                 <form method="POST" action="">
                     {% csrf_token %}
+                    
                     <input type="text" name="username" placeholder="Nom d'utilisateur"/>
                     <input type="password" name="password" placeholder="Mot de passe"/>
                     <input id="input-login" type="submit" name="login" value="Se connecter"/>
                 </form>
             </p>
         </div>
-    </div>
-    <div id="no_user">
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <p>{{message}}</p>
-                {% endfor %}
-            </ul>
-        {% endif %}
     </div>
 </div>
 
