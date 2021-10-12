@@ -1,22 +1,33 @@
 {% extends 'main.html' %}
 
 {% block content %}
+ <div>
+    {% if message %}
+        <div class="warning">
+            <p>{{message}}</p>
+        </div>
+    {% endif %}
+</div>
 
 <div class="main-container">
-    <h1 class="page-title">Créer une critique</h1>
+    <div class="width-75">
+        <h1 class="page-title">Créer une critique</h1>
+    </div>
+    <div class="width-75">
+        {% if message %}
+            <p>{{message}}</p>
+        {% endif %}
+    </div>
+    <div class="width-75">
+        <div class="review">
+            <form enctype="multipart/form-data" method="post" action="">
+                {% csrf_token%}
 
-    {% if message %}
-        <p>{{message}}</p>
-    {% endif %}
+                {{reviewForm.as_p}}
 
-    <div class="review">
-        <form enctype="multipart/form-data" method="post" action="">
-            {% csrf_token%}
-
-            {{reviewForm.as_p}}
-
-            <input type="submit" name"submit" value="Submit" />
-        </form>
+                <input type="submit" name"submit" value="Submit" />
+            </form>
+        </div>
     </div>
 </div>
 

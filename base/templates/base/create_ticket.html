@@ -2,20 +2,25 @@
 
 {% block content %}
 <div class="main-container">
-    <h1 class="page-title">Créer une critique</h1>
-
-    <div class="create-ticket">
-        <h1 class="text-center">Créer un ticket</h1>
-        <div>
-            <form method="POST" action="">
+    <div class="width-75">
+        <h1 class="page-title">Demander une critique</h1>
+    </div>
+    <div class="width-75">
+        {% if message %}
+            <p>{{message}}</p>
+        {% endif %}
+    </div>
+    <div class="width-75">
+        <div class="ticket">
+            <form enctype="multipart/form-data" method="post" action="">
                 {% csrf_token %}
 
                 {{ticketForm.as_p}}
 
+                <input type="submit" name="submit" value="Submit" />
             </form>
         </div>
-    </div>
-    <hr/>
+    <div>
 </div>
 
 

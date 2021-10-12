@@ -1,7 +1,7 @@
 <nav>
     <div class="navbar-auth">
         {% if user.is_authenticated %}
-            <p class="logged-user">User connected: {{ user }}</p>
+            <p class="logged-user">User connected: {{ user|capfirst }}</p>
         {% else %}
             <p class="logged-user">User connected: None</p>
         {% endif %}

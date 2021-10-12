@@ -9,10 +9,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import Ticket, Review, UserFollow
 from .forms import TicketForm, ReviewForm
-from base.models import Review
+from base.models import Review, Ticket
 
 
 def loginPage(request):
+    if request.user is not None:
+        logout(request)
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
@@ -33,33 +35,101 @@ def loginPage(request):
 
 @login_required(login_url='/')
 def flux(request):
-    tickets = Ticket.objects.all()
-    reviews = Review.objects.all()
-    for dico in reviews:
-        dico.note = [i for i in range(dico.note)]
-    all_obj = []
-    [all_obj.append(ticket) for ticket in tickets]
-    [all_obj.append(review) for review in reviews]
-    all = sorted(all_obj, key=lambda x: x.time_created, reverse=True)
-    noitem = False
-    if len(all_obj) == 0:
-        noitem = True
-    context = {'all_obj': all, 'noitem': noitem}
-    return render(request, 'base/flux.html', context)
+    if request.method == 'GET':
+        actualuser = User.objects.get(username=request.user.username)
+        followeds = [i.followed_user for i in UserFollow.objects.filter(user=actualuser)]
+        followeds.append(actualuser)
+        tickets = Ticket.objects.all()
+        reviews = Review.objects.all()
+        for dico in reviews:
+            dico.note = [i for i in range(dico.note)]
+        all_obj = []
+        for ticket in tickets:
+            for i in followeds:
+                if (ticket.user == i or ticket.user == actualuser):
+                    all_obj.append(ticket)
+        for review in reviews:
+            for i in followeds:
+                if (review.user == i or review.user == actualuser):
+                    all_obj.append(review)
+        all = sorted(all_obj, key=lambda x: x.time_created, reverse=True)
+        noitem = False
+        if len(all_obj) == 0:
+            noitem = True
+        already_answered = []
+        for rev in reviews:
+            for tick in tickets:
+                if rev.ticket == tick:
+                    already_answered.append(tick.pk)
+        followeds.remove(actualuser)
+        lst_followeds = followeds
+        if len(followeds) == 0:
+            followeds = False
+        else:
+            followeds = True
+        
+        context = {
+            'all_obj': all,
+            'noitem': noitem,
+            'already_answered': already_answered,
+            'followeds': followeds,
+            'lst_followeds': lst_followeds
+            }
+        return render(request, 'base/flux.html', context)
 
 @login_required(login_url='/')
 def abo(request):
-    return render(request, 'base/abo.html')
+    actualuser = User.objects.get(username=request.user.username)
+    followeds = [i.followed_user for i in UserFollow.objects.filter(user=actualuser)]
+    q = None
+    res_search = None
+    try:
+        if request.method == 'GET':
+            q = request.GET.get('q').lower()
+        if q is not None:
+            try:
+                res_search = User.objects.get(username=q)
+            except:
+                res_search = 'nobody'
+    except AttributeError:
+        users = User.objects.all()
+        context = {'users': users, 
+                'res_search': res_search,
+                'followeds': followeds
+                    }
+        return render(request, 'base/abo.html', context)
+    if request.method == 'POST':
+            q = request.GET.get('q').lower()
+            followed = User.objects.get(username=q)
+            actualuser = User.objects.get(username=request.user.username)
+            if followed not in followeds:
+                new = UserFollow.objects.create(
+                    user = actualuser,
+                    followed_user = followed
+                    )
+                new.save()
+            users = User.objects.all()
+            followeds = [i.followed_user for i in UserFollow.objects.filter(user=actualuser)]
+            context = {'users': users, 'res_search': res_search, 'followeds': followeds}
+            return render(request, 'base/abo.html', context)
+    users = User.objects.all()
+    followeds = [i.followed_user for i in UserFollow.objects.filter(user=actualuser)]
+    context = {'users': users, 'res_search': res_search, 'followeds': followeds}
+    return render(request, 'base/abo.html', context)
 
 @login_required(login_url='/')
 def create_ticket(request):
-    ticketForm = TicketForm()
+    ticketForm = TicketForm(request.POST, request.FILES)
+    actualuser = User.objects.get(username=request.user)
     if request.method == "POST":
-        print(request.POST)
-        ticketForm = TicketForm(request.POST)
-        if ticketForm.is_valid():
-            ticketForm.save()
-            return redirect('flux')
+        ticket = Ticket.objects.create(
+            titre = request.POST.get('titre'),
+            description = request.POST.get('description'),
+            image = request.FILES.get('image'),
+            user = actualuser
+        )
+        ticket.save()
+        return redirect('flux')
     context = {'ticketForm': ticketForm}
     return render(request, 'base/create_ticket.html', context)
 
@@ -77,7 +147,7 @@ def create_critique(request):
     if request.method == 'POST' and request.POST.get('type_produit') != None:
         for i,j in request.POST.items():
             if i == "note":
-                if int(j) not in range(0,6):
+                if int(j) not in range(0,5):
                     message = messages.error(request, 'la note est incorrecte, elle doit être comprise entre 0 et 5')
                     context = {'reviewForm': reviewForm, "message": message}
                     return render(request, 'base/create_critique.html', context)
@@ -98,12 +168,28 @@ def create_critique(request):
     return render(request, 'base/create_critique.html', context)
 
 @login_required(login_url='/')
-def answer_ticket(request):
-    return render(request, 'base/answer_ticket.html')
+def answer_ticket(request, pk):
+    tick = Ticket.objects.get(id=pk)
+    reviewForm = ReviewForm()
+    if request.method == 'POST':
+        review = Review.objects.create(
+            ticket = tick,
+            type_produit = request.POST.get('type_produit'),
+            titre_produit = tick.titre,
+            description_produit = tick.description,
+            image_produit = tick.image,
+            note = request.POST.get('note'),
+            titre_critique = request.POST.get('titre_critique'),
+            user = request.user,
+            description_critique = request.POST.get('description_critique')
+        )
+        review.save()
+        return redirect('flux')
+    context = {'reviewForm': reviewForm, 'ticket': tick}
+    return render(request, 'base/answer_ticket.html', context)
 
 @login_required(login_url='/')
 def update_own_critique(request):
-    print('touched')
     if request.method == 'POST':
         [print(i,j) for i,j in request.POST.items()]
     return render(request, 'base/update_own_critique.html')
@@ -124,34 +210,29 @@ def own_posts(request):
         noitem = False
     if request.method == 'POST':
         for i,j in request.POST.items():
-            if ('supprimer' in j and 'Article') or ('supprimer' in j and 'Livre' in i):
+
+            if j == "supprimer" and 'review' in i:
                 pk = re.findall("\d+", i)[0]
                 Review.objects.filter(pk=pk).delete()
                 return redirect('own')
-            elif ('modifier' in j and 'Article' in i) or ('modifier' in  j and 'Livre' in i):
+            elif j == "modifier" and 'review' in i:
+                pk = re.findall("\d+", i)[0]
+                review = Review.objects.get(id=pk)
+                reviewForm = ReviewForm()
+                context = {"review": i, "reviewForm": reviewForm}
+                return render(request, 'base/update_own_critique.html', context)
+            elif j == "supprimer" and 'ticket' in i:
+                pk = re.findall("\d+", i)[0]
+                Ticket.objects.filter(pk=pk).delete()
+                return redirect('own')
+            elif j == "modifier" and 'ticket' in i:
                 pk = re.findall("\d+", i)[0]
                 review = Review.objects.get(id=pk)
                 reviewForm = ReviewForm()
                 context = {"review": review, "reviewForm": reviewForm}
                 return render(request, 'base/update_own_critique.html', context)
-
-
-            elif ('supprimer' in j and 'Article' not in i) or ('supprimer' in j and 'Livre' not in i):
-                print('supprimer ticket')
-            elif ('modifier' in j and 'Article' not in i) or ('modifier' in j and 'Livre' not in i):
-                print('modifier ticket')
-            else:
-                print('found nothing in', j)
-            #     print(i)
-            # elif j == "supprimer":
-            #     print(i)
-        # return redirect(request, )
-
     context = { 'all_posts': all, 'noitem': noitem }
     return render(request, 'base/own_posts.html', context)
-
-
-    # 1:56:20 update
 
 def logoutUser(request):
     logout(request)
@@ -163,14 +244,12 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            print('it is valid')
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
             login(request, user)
             return redirect('flux')
         else:
-            print('it is not valid')
             messages.error(request, "Une erreur s'est produite...")
     context = {'form': form}
     return render(request, 'base/register.html', context)

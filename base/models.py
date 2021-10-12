@@ -15,9 +15,6 @@ class UserFollow(models.Model):
     class Meta:
         unique_together = ['user', 'followed_user', ]
 
-    def __str__(self):
-        return self.user
-
 
 PRODUCT_CHOICES = (
     ("Livre","Livre"),
@@ -25,16 +22,18 @@ PRODUCT_CHOICES = (
 )
 
 class Ticket(models.Model):
-    title = models.CharField(max_length=128,
+    titre = models.CharField(max_length=128,
                              blank=True
                              )
     description = models.TextField(max_length=2048,
                                    blank=True
                                    )
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True
                              )
-    image = models.ImageField(upload_to='static/images/',
+    image = models.ImageField(upload_to ='images',
                               null=True,
                               blank=True
                               )
@@ -79,5 +78,5 @@ class Review(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.ticket} ==> {self.titre_produit}'
+        return f'Produit: {self.titre_produit}, Son ticket: {self.ticket}'
     

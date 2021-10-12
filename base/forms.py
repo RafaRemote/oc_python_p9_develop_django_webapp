@@ -5,7 +5,11 @@ from .models import Ticket, Review
 class TicketForm(ModelForm):
     class Meta:
         model = Ticket
-        exclude = '__all__'
+        fields = [
+            'titre',
+            'description',
+            'image'
+        ]
 
 
 class ReviewForm(ModelForm):
@@ -20,5 +24,3 @@ class ReviewForm(ModelForm):
             'titre_critique',
             'description_critique'
         ]
-
-

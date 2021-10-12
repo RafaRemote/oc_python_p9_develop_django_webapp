@@ -1,20 +1,62 @@
 {% extends 'main.html' %}
 
-
-
-
-
 {% block content %}
 <div class="main-container">
-<h1 class="page-title">Abonnements</h1>
+    <div class="width-100">
+        <h1 class="page-title">Abonnements</h1>
+    </div>
+    <div class=" abo">
+        <div class="search">
+            <div>
+                <form method="GET" action="">
+                    <input type="text" name="q" placeholder = "chercher un utilisateur..." />
+                </form>
+            </div>
+            <div class="res_search">
+                {% if res_search == request.user %}
+                    <p> Vous vous êtes trouvé vous même !! </p>
+                {% elif res_search in followeds %}
+                    <p> Nous avons trouvé {{res_search}}</p>
+                    <p> Vous suivez déjà {{res_search}}</p>
+                {% elif res_search not in followeds and res_search != "nobody" and res_search != None %}
+                    <p>Voulez-vous suivre {{ res_search|capfirst }} ?</p>
+                    <div class="log-container">
+                        <form action="{% url 'abo' %}" method="get">
+                            <input type="submit" value="non">
+                        </form>
+                        <form method="POST" action="">
+                            {% csrf_token %}
+
+                            <input type="submit" name="{{res_search}}" value="suivre" />
+                        </form>
+                    </div>
+                {% else %}
+                    {% if res_search == "nobody" %}
+                        <div class="blink_me">
+                            <p>Found Nobody...</p/>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    
+        <div class="followers">
+            {% if followeds %}
+                <p>Vous suivez actuellement:</p>
+                <ul>
+                    {% for i in followeds %}
+                        <li> {{ i|capfirst }} </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Vous ne suivez personne pour l'instant</p>
+            {% endif %}
+        
+        </div>
+    </div>
 
 
-<form method="GET" action="">
-    <label>Suivre d'autres utilisateurs</label>
-    <input type="text" name="q" placeholder="Nom d'utilisateur" />
-    <input type="submit" value="" />
 
-</form>
 
 
 </div>

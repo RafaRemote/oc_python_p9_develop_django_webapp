@@ -1,60 +1,108 @@
 {% extends 'main.html' %}
 
 {% block content %}
-
-<div class="main-container">
-    <h1 class="page-title">Flux</h1>
-    <div class="flux-log-container">
-        <div>
-            <form method="POST" action="{% url 'ticket'%}">
-                {% csrf_token %}
-
-                <input type="submit" name="register" value="Demander une critique" />
-            </form>
-        </div>
-        <div>
-            <form method="POST" action="{% url 'critique'%}">
-                {% csrf_token %}
-
-                <input type="submit" name="login" value="Créer une critique"/>
-            </form>
+    <div class="flux-side-panel">
+        <p>Vous suivez:</p>
+        <div class="followeds-panel">
+            {% if followeds  %}
+                <ul>
+                    {% for i in lst_followeds %}
+                        <li>{{i|capfirst}}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Personne !</p>
+            {% endif %}
         </div>
     </div>
-    <div class="flux-container">
-        {% if noitem == True %}
-            <h1 class="text-center">Il n'y a encore rien à afficher...</h1>
-        {% else %}
+    <div class="main-container">
+        <div class="width-75">
+            <h1 class="page-title">Flux</h1>
+            <div class="flux-log-container">
+                <div>
+                    <form action="{% url 'ticket'%}">
+                        {% csrf_token %}
+
+                        <input class="color-ticket" type="submit" value="Demander une critique" />
+                    </form>
+                </div>
+                <div>
+                    <form method="POST" action="{% url 'critique'%}">
+                        {% csrf_token %}
+
+                        <input class="color-critique" type="submit" name="critique" value="Créer une critique"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="width-75">
+            {% if noitem == True and followeds %}
+                <div class="warning">
+                    <h1 class="text-center">Vous n'avez encore rien publié et les utilisateurs que vous suivez non plus...</h1>
+                </div>
+            {% elif noitem == True %}
+                <div class="warning">
+                    <h1 class="text-center">Vous n'avez encore rien publié et vous ne suivez encore personne...</h1>
+                </div>
+            {% endif %}
+        </div>
+        <div class="width-75">
             {% for obj in all_obj %}
-                {% if obj.title %}
+                {% if obj.image %}
                     <div class="ticket">
                         <div class="ticket-header">
-                            <p> {{obj.user}} a demandé une critique </p>
-                            <p class="text-align-right"> {{obj.time_created}} </p>
+                            {% if request.user == obj.user %}
+                                <p>Vous avez demandé une critique</p>
+                            {% else %}
+                                <p> {{obj.user|capfirst}} a demandé une critique </p>
+                                <p class="text-align-right"> {{obj.time_created}} </p>
+                            {% endif %}
+                            <p class="text-align-right">{{obj.time_created}}</p>
                         </div>
                         <div class="ticket_left_part">
-                            <p>{{obj.title}}</p>
+                            <div class="ticket-tag">
+                                <p>Ticket {{obj.id}}</p> 
+                            </div>
+                            <p>Produit concerné: {{obj.titre}}</p>
                             <p>{{obj.description}}</p>
-                            <p>{{obj.image}}</p>
-                            <img src="{{obj.image}}" alt="ticket picture: {{obj.image}}" />
+                            <div class="illustration">
+                                <p>Illustration:</p>
+                                <img src="/media/{{obj.image}}" alt="illustration produit" />
+                            <div>
                         </div>
                         <div class="ticket_right_part">
-                            {{obj.time_created}}
-                            <form method="POST" action="{% url 'critique' %}">
-                                {% csrf_token %}
-                                <input id="creer-critique-button" type="submit" value="Créer une critique" />
-                            </form>
+                            {% if obj.id in already_answered %}
+                                <div class="warning">
+                                    <p>Ce ticket a déjà reçu une réponse</p>
+                                </div>
+                            {% else %}
+                                <form action="{% url 'answer' obj.id %}">
+                                    {% csrf_token %}
+                                    <input class="color-critique" id="creer-critique-button" type="submit" value="Répondre" />
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 {% else %}
                     <div class="review">
                         <div class="review-header">
-                            <p>{{obj.user}} publié une critique</p>
+                            <div class="review-header">
+                                {% if request.user == obj.user %}
+                                    <p>Vous avez publié une critique</p>
+                                {% else %}
+                                    <p>{{obj.user|capfirst }} a publié une critique</p>
+                                    {% if obj.ticket %}
+                                        <div class="ticket-tag">
+                                            <p>Réponse au Ticket {{obj.ticket.id}}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
                             <p class="text-align-right">{{obj.time_created}}</p>
                         </div>
+                        <p> Titre Produit: <b>{{obj.titre_produit}}</b> </p>
                         <p> Type Produit: {{obj.type_produit}}</p>
                         <p> Titre de la critique : "<i>{{obj.titre_critique}}</i>" </p>
-                        <p> /media/{{obj.image_produit}} </p>
-                        <p> Illustration: <img src="/media/{{obj.image_produit}}"  width="300px" height="auto" alt="illustration produit"/> </p>
                         <div class="review-upper-body">
                             <p>Note - </p>
                             <p>
@@ -63,27 +111,53 @@
                                 {% endfor %}
                             </p>
                         </div>
+                        <div class="illustration">
+                            <p>Illustration:</p>
+                            <img src="/media/{{obj.image_produit}}" alt="illustration produit"/>
+                        </div>
                         <div class-"middle-body">
                             <p>{{obj.body}}</p>
                         </div>
                         <div class="review-lower-body">
                             {% if obj.ticket %}
-                                <p>Ticket by {{obj.ticket.user}}</p>
-                                <p>{{obj.ticket.title}}</p>
-                                <img src="{{obj.image_produit}}" width="300px" height="auto" alt="ticket-image" />
+                                <div class="color-ticket rappel">
+                                    <div>
+                                        <h2 class="text-center">Rappel de la demande: </h2> 
+                                    </div>
+                                    <hr />
+                                    <div>
+                                        <br>
+                                        <div class="ticket-tag">
+                                            <p>Ticket {{obj.ticket.id}}</p>
+                                        </div>
+                                        <p> Auteur:
+                                            {% if request.user == obj.ticket.user %}
+                                                <b>vous-même</b>
+                                            {% else %}
+                                                {{ obj.ticket.user|capfirst }}
+                                            {% endif %}
+                                        </p>
+                                        <p>Date: {{obj.ticket.time_created}} </p>
+                                        <p>Titre: {{obj.ticket.titre}} </p>
+                                        <p>Description: {{obj.ticket.description}}</p>
+                                        <div class="illustration">
+                                            <p>Illustration:</p> 
+                                            <img id="illustration-rappel" src="/media/{{obj.ticket.image}}" />
+                                        </div>
+                                    </div>
+                                </div>
                             {% else %}
                                 <p class="text-center">Il n'y pas eu de ticket pour cette critique</p>
                             {% endif %}
                         </div>
-                        <div class="review-footer">
+                        {% comment %} <div class="review-footer">
                             <input type="submit" value="Modifier" />
                             <input type="submit" value="Supprimer" />
-                        </div>
+                        </div> {% endcomment %}
                     </div>
-                {% endif%}
+                {% endif %}
             {% endfor %}
-        {% endif %}
+        </div>
     </div>
-</div>
 
-{% endblock content%}}
+{% endblock content %}

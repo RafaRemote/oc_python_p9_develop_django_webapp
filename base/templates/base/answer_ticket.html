@@ -2,7 +2,55 @@
 
 
 {% block content %}
-<div class="main-container">
-    <h1 class="page-title">Answer Ticket</h1>
-</div>
+    <div class="main-container">
+        <div class="page-title">
+            <h1>Répondre à la demande</h1>
+        </div>
+        <div class="color-ticket rappel">
+            <div>
+                <h2 class="text-center">Rappel de la demande: </h2> 
+            </div>
+            <hr />
+            <div>
+                <br>
+                <div class="ticket-tag">
+                    <p>Ticket {{ticket.id}}</p>
+                </div>
+                <p> Auteur:
+                    {% if request.user == ticket.user %}
+                        <b>vous-même</b>
+                    {% else %}
+                        {{ticket.user|capfirst}}
+                    {% endif %}
+                </p>
+                <p>Date: {{ticket.time_created}} </p>
+                <p>Titre: {{ticket.titre}} </p>
+                <p>Description: {{ticket.description}}</p>
+                <div class="illustration">
+                    <p>Illustration:</p> 
+                    <img id="illustration-rappel" src="/media/{{ticket.image}}" />
+                </div>
+            </div>
+        </div>
+        <div class="width-100">
+            <div class="review">
+                <div>
+                    <h2 class="text-center">Votre Critique: </h2> 
+                </div>
+                <hr />
+                <div>
+                    <form enctype="multipart/form-data" method="post" action="">
+                        {% csrf_token%}
+
+                        <p>Type produit: {{reviewForm.type_produit}}</p>
+                        <p>Votre Note: {{reviewForm.note}}</p>
+                        <p>Titre de votre critique: {{reviewForm.titre_critique}}</p>
+                        <p>Votre critique: {{reviewForm.description_critique}}</p>
+
+                        <input type="submit" name"submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {%endblock content%}
