@@ -13,6 +13,7 @@ from .forms import TicketForm, ReviewForm
 from base.models import Review, Ticket
 
 
+
 def loginPage(request):
     if request.user is not None:
         logout(request)
@@ -283,19 +284,14 @@ def logoutUser(request):
     return redirect('/', {'messages': ""})
 
 def delete(request, i):
-    print('xxxxxxxxx')
-    print('xxxxxxxxx')
-    print('xxxxxxxxx')
+
     to_delete = User.objects.filter(username=i).first()
     u = User.objects.get(username=request.user)
     uf = UserFollow.objects.filter(user=u)
     for i in uf:
         if i.followed_user == to_delete:
-            print('-------')
-            print(i)
-            print(to_delete)
             i.delete()
-    return redirect('flux')
+    return redirect('abo')
 
 def register(request):
     messages.error(request, "")

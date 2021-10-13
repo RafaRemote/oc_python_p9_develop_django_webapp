@@ -1,5 +1,5 @@
 <div class="follow">
-    <div class="followers">
+    {% comment %} <div class="followers">
         {% if followeds %}
             <p>Vous suivez actuellement:</p>
             <ul>
@@ -13,19 +13,50 @@
         {% else %}
             <p class="text-center">Vous ne suivez personne pour l'instant</p>
         {% endif %}
+    </div> {% endcomment %}
+    <div class="followers">
+        <table>
+            <thead>
+                <tr>
+                    {% if followeds %}
+                        <th colspan="2">Abonnements</th>
+                    {% else %}
+                        <th colspan="2">Zero abonnement</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if followeds %}
+                    {% for i in followeds%}
+                        <tr>
+                            <td>{{ i|capfirst }}</td>
+                            <td><a href={% url 'delete' i %}><i class="fas fa-times-circle black"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
     </div>
-    <div  class="followers">
-        {% if followers %}
-            <p>Vous êtes suivi par: </p>
-            <ul>
-                {% for i in followers %}
-                    <li class="text-center">
-                        {{ i|capfirst }}
-                    </li>
-                {% endfor %} 
-            </ul>
-        {% else %}
-            <p class="text-center">Vous n'êtes suivi par personne pour l'instant</p>
-        {% endif %}
+    <div class="followers">
+        <table>
+            <thead>
+                <tr>
+                    {% if followers %}
+                        <th colspan="1">Abonnés</th>
+                    {% else %}
+                        <th colspan="1">Zero abonné</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if followers %}
+                    {% for i in followers%}
+                        <tr>
+                            <td>{{ i|capfirst }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 </div>

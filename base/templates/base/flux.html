@@ -1,9 +1,9 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <div class="flux-side-panel">
+    {% comment %} <div class="flux-side-panel">
         {% include 'follow_snippet.html' %}
-    </div>
+    </div>  {% endcomment %}
     <div class="main-container">
         <div class="width-75">
             <h1 class="page-title">Flux</h1>
@@ -46,14 +46,17 @@
                                 <p> {{obj.user|capfirst}} a demandé une critique </p>
                                 <p class="text-align-right"> {{obj.time_created}} </p>
                             {% endif %}
-                            <p class="text-align-right">{{obj.time_created}}</p>
                         </div>
                         <div class="ticket_left_part">
                             <div class="ticket-tag">
                                 <p>Ticket {{obj.id}}</p> 
                             </div>
                             <p>Produit concerné: {{obj.titre}}</p>
-                            <p>Description produit: {{obj.description_produit}}</p>
+                            {% if obj.description %}
+                                <p>Description produit: {{obj.description}}</p>
+                            {% else %}
+                                <p>L'auteur de la demande n'a pas fourni de description</p>
+                            {% endif %}
                             <div class="illustration">
                                 <p>Illustration:</p> 
                                 {% if obj.image %}
@@ -117,10 +120,16 @@
                         </div>
                         <div class="illustration">
                             {% if obj.description_produit %}
-                                <p> 
-                                Descriptioon produit: {{ obj.description_produit }}
+                                <p>Description produit: {{ obj.description_produit }}</p>
                             {% else %}
                                 <p class="text-center"> L'auteur de la critique n'a pas fourni de description</p>
+                            {% endif %}
+                        </div>
+                        <div class="illustration">
+                            {% if obj.description_critique %}
+                                <p>Critique argumentée: " <i>{{ obj.description_critique }}</i> "</p>
+                            {% else %}
+                                <p class="text-center">L'auteur n'a pas argumentè sa critique</p>
                             {% endif %}
                         </div>
                         <div class="illustration">
