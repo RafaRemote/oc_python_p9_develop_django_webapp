@@ -39,20 +39,33 @@
                 {% endif %}
             </div>
         </div>
-    
-        <div class="followers">
-            {% if followeds %}
-                <p>Vous suivez actuellement:</p>
-                <ul>
-                    {% for i in followeds %}
-                        <li> {{ i|capfirst }} </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Vous ne suivez personne pour l'instant</p>
-            {% endif %}
-        
+        <div class="follow">
+            <div class="followers">
+                {% if followeds %}
+                    <p>Vous suivez actuellement:</p>
+                    <ul>
+                        {% for i in followeds %}
+                            <li> {{ i|capfirst }} </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-center">Vous ne suivez personne pour l'instant</p>
+                {% endif %}
+            </div>
+            <div  class="followers">
+                {% if followers %}
+                    <p>Vous êtes suivi par: </p>
+                    <ul>
+                        {% for i in followers %}
+                            <li> {{ i|capfirst }} </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-center">Vous n'êtes suivi par personne pour l'instant</p>
+                {% endif %}
+            </div>
         </div>
+
     </div>
 
 

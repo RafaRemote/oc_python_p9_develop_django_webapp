@@ -4,9 +4,18 @@
 {% block content %}
 <div class="main-container">
     <h1 class="page-title">Modifiez votre demande</h1>
+    <div class="ticket">
+        <p>Vous modifiez la demande pour un "<b>{{ticket.titre}}</b>"</p>
+         <div class="ticket-tag">
+            <p>Ticket {{ticket.pk}}</p> 
+        </div>
+        <form method="post">
+            {% csrf_token%}
+
+            {{ticketForm.as_p}}
+
+            <input type="submit" name="submit" value='envoyer' />
+        </form>
+    </div>
 </div>
-
-
-
-
 {%endblock content%}

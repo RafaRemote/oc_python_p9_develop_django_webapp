@@ -1,0 +1,31 @@
+<div class="follow">
+    <div class="followers">
+        {% if followeds %}
+            <p>Vous suivez actuellement:</p>
+            <ul>
+                {% for i in lst_followeds %}
+                    <li class="text-center">
+                        {{ i|capfirst }}
+                        <a href={% url 'delete' i %}><i class="fas fa-times-circle"></i></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">Vous ne suivez personne pour l'instant</p>
+        {% endif %}
+    </div>
+    <div  class="followers">
+        {% if followers %}
+            <p>Vous êtes suivi par: </p>
+            <ul>
+                {% for i in followers %}
+                    <li class="text-center">
+                        {{ i|capfirst }}
+                    </li>
+                {% endfor %} 
+            </ul>
+        {% else %}
+            <p class="text-center">Vous n'êtes suivi par personne pour l'instant</p>
+        {% endif %}
+    </div>
+</div>

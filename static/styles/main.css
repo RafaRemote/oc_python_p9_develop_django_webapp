@@ -31,9 +31,10 @@ html, body {
     width: 10%;
     border: 2px solid black;
     padding:5rem;
-    background-color: rgba(255, 255, 51, .1);
+    background-color: rgb(153, 181, 219);
     border-radius: 5px;
     margin: .5rem;
+    z-index: 1;
 
 }
 
@@ -41,7 +42,7 @@ html, body {
     width: 100%;
 }
 
-.ticket-tag {
+.ticket-tag, .critique-tag {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,6 +56,9 @@ html, body {
     font-weight: bold;
 }
 
+.critique-tag {
+    background-color: rgba(0, 255, 0, .5)
+}
 a{
     text-decoration: none;
     margin-right: 1rem;
@@ -210,6 +214,7 @@ h3, h4 {
 }
 
 .abo {
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -234,15 +239,17 @@ h3, h4 {
 }
 
 .log{
+    box-sizing: border-box;
     width: 50%;
     margin: .5rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: rgba(255, 0, 0, .20);
+    background-color: rgb(153, 181, 219);
     border: 1px solid black;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .log > p:first-child {
@@ -525,7 +532,8 @@ form > input {
     width: 50%;
     box-sizing: border-box;
     margin: auto;
-    background-color: rgba(255, 0, 0, .4);
+    background-color: rgba(255, 0, 0);
+    font-size: 1rem;
     color: white;
     text-shadow:
     -1px -1px 0 #000,  
@@ -562,16 +570,30 @@ form > input {
 
   }
 
-  /* .res_search {
-
-  } */
+.follow {
+    width: 100%;
+}
 
 .followers {
-    box-sizing: border-box;
-    padding: 2rem;
-    width:50%;
+    /* box-sizing: border-box; */
+    width:75%;
     border: 2px solid black;
     border-radius: 5px;
-    margin: 1rem;
+    margin: 1rem auto;
+    padding: 2rem;
     background-color:rgba(0, 0, 0, 0.1);
+}
+
+.followers ul {
+    display: flex;
+    width: 4rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    list-style: none;
+}
+
+li > a {
+    margin:  1rem 1rem;
 }

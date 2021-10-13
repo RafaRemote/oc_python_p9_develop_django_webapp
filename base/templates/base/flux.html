@@ -2,18 +2,7 @@
 
 {% block content %}
     <div class="flux-side-panel">
-        <p>Vous suivez:</p>
-        <div class="followeds-panel">
-            {% if followeds  %}
-                <ul>
-                    {% for i in lst_followeds %}
-                        <li>{{i|capfirst}}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Personne !</p>
-            {% endif %}
-        </div>
+        {% include 'follow_snippet.html' %}
     </div>
     <div class="main-container">
         <div class="width-75">
@@ -38,17 +27,17 @@
         <div class="width-75">
             {% if noitem == True and followeds %}
                 <div class="warning">
-                    <h1 class="text-center">Vous n'avez encore rien publié et les utilisateurs que vous suivez non plus...</h1>
+                    <p class="text-center">Vous n'avez encore rien publié et les utilisateurs que vous suivez non plus...</p>
                 </div>
             {% elif noitem == True %}
                 <div class="warning">
-                    <h1 class="text-center">Vous n'avez encore rien publié et vous ne suivez encore personne...</h1>
+                    <p class="text-center">Vous n'avez encore rien publié et vous ne suivez encore personne...</p>
                 </div>
             {% endif %}
         </div>
         <div class="width-75">
             {% for obj in all_obj %}
-                {% if obj.image %}
+                {% if obj.titre %}
                     <div class="ticket">
                         <div class="ticket-header">
                             {% if request.user == obj.user %}
@@ -64,10 +53,16 @@
                                 <p>Ticket {{obj.id}}</p> 
                             </div>
                             <p>Produit concerné: {{obj.titre}}</p>
-                            <p>{{obj.description}}</p>
+                            <p>Description produit: {{obj.description_produit}}</p>
                             <div class="illustration">
-                                <p>Illustration:</p>
-                                <img src="/media/{{obj.image}}" alt="illustration produit" />
+                                <p>Illustration:</p> 
+                                {% if obj.image %}
+                                    <img id="illustration-rappel" src="/media/{{obj.image}}" />
+                                {% else %}
+                                    <div class="nopic">
+                                        <i class="far fa-clipboard"> pas d'illustration </i>
+                                    </div>
+                                {% endif %}
                             <div>
                         </div>
                         <div class="ticket_right_part">
@@ -89,6 +84,15 @@
                             <div class="review-header">
                                 {% if request.user == obj.user %}
                                     <p>Vous avez publié une critique</p>
+                                    {% if obj.ticket %}
+                                        <div class="ticket-tag">
+                                            <p>Réponse au Ticket {{obj.ticket.id}}</p>
+                                        </div>
+                                    {% endif %}
+                                <br>
+                                    <div class="critique-tag">
+                                        <p> Critique {{obj.id}}</p>
+                                    </div>
                                 {% else %}
                                     <p>{{obj.user|capfirst }} a publié une critique</p>
                                     {% if obj.ticket %}
@@ -112,8 +116,21 @@
                             </p>
                         </div>
                         <div class="illustration">
-                            <p>Illustration:</p>
-                            <img src="/media/{{obj.image_produit}}" alt="illustration produit"/>
+                            {% if obj.description_produit %}
+                                <p> 
+                                Descriptioon produit: {{ obj.description_produit }}
+                            {% else %}
+                                <p class="text-center"> L'auteur de la critique n'a pas fourni de description</p>
+                            {% endif %}
+                        </div>
+                        <div class="illustration">
+                            {% if obj.image_produit %}
+                                <img src="/media/{{obj.image_produit}}" alt="image_produit" />
+                            {% else %}
+                                <div class="nopic">
+                                 <i class="far fa-clipboard"> pas d'illustration </i>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class-"middle-body">
                             <p>{{obj.body}}</p>
@@ -142,7 +159,13 @@
                                         <p>Description: {{obj.ticket.description}}</p>
                                         <div class="illustration">
                                             <p>Illustration:</p> 
-                                            <img id="illustration-rappel" src="/media/{{obj.ticket.image}}" />
+                                            {% if obj.ticket.image %}
+                                                <img id="illustration-rappel" src="/media/{{obj.ticket.image}}" />
+                                            {% else %}
+                                                <div class="nopic">
+                                                    <i class="far fa-clipboard"> pas d'illustration </i>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -150,10 +173,6 @@
                                 <p class="text-center">Il n'y pas eu de ticket pour cette critique</p>
                             {% endif %}
                         </div>
-                        {% comment %} <div class="review-footer">
-                            <input type="submit" value="Modifier" />
-                            <input type="submit" value="Supprimer" />
-                        </div> {% endcomment %}
                     </div>
                 {% endif %}
             {% endfor %}

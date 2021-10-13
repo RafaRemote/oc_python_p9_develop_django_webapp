@@ -6,45 +6,45 @@
     <div class="width-75">
         <h1 class="text-center page-title">{{ request.user|capfirst }}, voici vos publications !</h1>
     </div>
-    <div class="width-75">
+    <div class="width-100">
         {% if noitem %}
-            <div class="messages">
-                <p>Vous n'avez encore rien publié... :'(</p>
+            <div class="warning">
+                <p class="text-center">Vous n'avez encore rien publié... :'(</p>
             </div>
         {% endif %}
 
         {% for obj in all_posts%}
             {% if obj.titre %}
-                <div class="ticket">
-                    <div class="ticket-header">
-                        <p>Vous avez publié un ticket</p>
-                        <p class="text-align-right">{{obj.time_created}}</p>
-                        <div class="ticket-tag">
-                            <p>Ticket {{obj.id}}</p>
-                        </div> 
-                    </div>
-                    <div class="ticket-body">
-                        <p>{{obj.titre}}</p>
-                    <div class="illustration">
-                        {% if obj.image %}
-                            <p>obj {{obj.image}} </p>
-                            <img src="/media/{{obj.image}}" alt="image" />
-                        {% else %}
-                            <div class="nopic">
-                                <i class="far fa-clipboard"> pas d'illustration </i>
-                            </div>
-                        {% endif %}
-                    </div>
-                    </div>
-                    <div class="ticket-footer">
-                        <form method="POST" action="">
-                            {% csrf_token %}
+                <form method="POST" action="">
+                    {% csrf_token%}
 
+                    <div class="ticket">
+                        <div class="ticket-header">
+                            <p>Vous avez publié un ticket</p>
+                            <p class="text-align-right">{{obj.time_created}}</p>
+                            <div class="ticket-tag">
+                                <p>Ticket {{obj.id}}</p>
+                            </div> 
+                        </div>
+                        <div class="ticket-body">
+                            <p>{{obj.titre}}</p>
+                            <div class="illustration">
+                                <p>Illustration: </p>
+                                {% if obj.image %}
+                                    <img src="/media/{{obj.image}}" alt="image" />
+                                {% else %}
+                                    <div class="nopic">
+                                        <i class="far fa-clipboard"> pas d'illustration </i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="ticket-footer">
                             <input type="submit" name="{{obj.id}} ticket" value="modifier" />
                             <input type="submit" name="{{obj.id}} ticket" value="supprimer" />
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             {% else %}
                 <form method="post" action="">
                     {% csrf_token %}
@@ -58,9 +58,14 @@
                                         <p>Réponse au Ticket {{obj.ticket.id}}</p>
                                     </div>
                                 {% endif %}
+                                <br>
+                                <div class="critique-tag">
+                                    <p> Critique {{obj.id}}</p>
+                                </div>
                             </div>
                             <p class="text-align-right">{{obj.time_created}}</p>
                         </div>
+                        <p> Titre Produit: <b>{{obj.titre_produit}}</b></p>
                         <p> Type Produit: {{obj.type_produit}}</p>
                         <p> Titre de la critique : "<i>{{obj.titre_critique}}</i>" </p>
                         <div class="review-upper-body">
@@ -72,8 +77,17 @@
                             </p>
                         </div>
                         <div class="illustration">
+                            {% if obj.description_produit %}
+                                <p>
+                                    Description produit: {{ obj.description_produit }}
+                                </p>
+                            {% else %}
+                                <p class="text-center"> L'auteur de la critique n'a pas fourni de description</p>
+                            {% endif %}
+                        </div>
+                        <div class="illustration">
                             <p>Illustration:</p>
-                            {% if obj.image.produit %}
+                            {% if obj.image_produit %}
                                 <img src="/media/{{obj.image_produit}}" alt="illustration produit"/>
                             {% else %}
                                 <div class="nopic">
@@ -123,10 +137,8 @@
                             {% endif %}
                         </div>
                         <div class="review-footer">
-                            <form method="POST" action="">
-                                <input type="submit" name="{{obj.id}} review" value="modifier" />
-                                <input type="submit" name="{{obj.id}} review" value="supprimer" />
-                            </form>
+                            <input type="submit" name="{{obj.id}} review" value="modifier" />
+                            <input type="submit" name="{{obj.id}} review" value="supprimer" />
                         </div>
                     </div>
                 </form>

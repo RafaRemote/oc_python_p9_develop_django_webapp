@@ -13,7 +13,8 @@ urlpatterns = [
     path('create-critique/', views.create_critique, name='critique'),
     path('answer-ticket/<str:pk>/', views.answer_ticket, name='answer'),
     path('own-posts/', views.own_posts, name='own'),
-    path('update-own-critiaue/', views.update_own_critique, name='update-own-critique'),
-    path('update-own-ticket/<str>/', views.update_own_ticket, name='update-own-ticket'),
+    path('update-own-critique/<str:pk>', views.update_own_critique, name='update-own-critique'),
+    path('update-own-ticket/<str:pk>/', views.update_own_ticket, name='update-own-ticket'),
+    path('delete/<str:i>/', views.delete, name='delete'),
 ]
  

@@ -28,7 +28,13 @@
                 <p>Description: {{ticket.description}}</p>
                 <div class="illustration">
                     <p>Illustration:</p> 
-                    <img id="illustration-rappel" src="/media/{{ticket.image}}" />
+                    {% if ticket.image %}
+                        <img id="illustration-rappel" src="/media/{{ticket.image}}" />
+                    {% else %}
+                        <div class="nopic">
+                            <i class="far fa-clipboard"> pas d'illustration </i>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -45,7 +51,9 @@
                         <p>Type produit: {{reviewForm.type_produit}}</p>
                         <p>Votre Note: {{reviewForm.note}}</p>
                         <p>Titre de votre critique: {{reviewForm.titre_critique}}</p>
+                        <p>Votre description produit: {{reviewForm.description_critique}}
                         <p>Votre critique: {{reviewForm.description_critique}}</p>
+                        <p>Ajouter une image: {{reviewForm.image_produit}}
 
                         <input type="submit" name"submit" value="Submit" />
                     </form>

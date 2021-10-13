@@ -7,17 +7,17 @@
     <div class="review">
         <p>Vous modifiez la critique pour un "<b>{{review.type_produit}}</b>"</p>
         <p>Dont le titre est "<i><b>{{review.titre_produit}}</i></b>"</p>
-        <form method="post">
+        <div class="critique-tag">
+            <p>Critique {{review.pk}}</p> 
+        </div>
+        <form enctype="multipart/form-data" method="POST" action="">
             {% csrf_token%}
-
-            <p>Type Produit: {{reviewForm.type_produit}}
-            <p>Titre Produit: {{reviewForm.titre_produit}}
-            <p>Description Produit: {{reviewForm.description_produit}}
-            <p>Image Produit: {{reviewForm.image_produit}}
-            <p>Note : {{reviewForm.note}}
-            <p>Titre Critique: {{reviewForm.titre_critique}}
-            <p>Description Critique: {{reviewForm.description_critique}}
-            <input type="submit" name="{{request}}" value='envoyer' />
+            {% if reviewForm %}
+                {{reviewForm.as_p}}
+            {% else %}  
+                <p>Something went wrong with the form...</p>
+            {% endif %}
+            <input type="submit" name="submit" value='envoyer' />
         </form>
     </div>
 </div>
