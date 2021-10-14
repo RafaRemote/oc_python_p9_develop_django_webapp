@@ -109,10 +109,6 @@ flake8 --format=html --htmldir=flake8_report
 The database has been populated.  
 For convenience here are the list of the users already in the database.  
 
-| name_____| password | status____|  
-|---------------------------------|  
-| rafa_____| 1q2w3e$$ | superuser |  
-| ewa______| 1q2w3e$$ |___________|  
-| bernardo_| 1q2w3e$$ |___________|  
-| antoine__| 1q2w3e$$ |___________|  
-| alice____| 1q2w3e$$ |___________|  
+Names: rafa, ewa, bernardo, antoine, alice.  
+Superuser: rafa.  
+Password: all users have the same password: 1q2w3e$$.  
