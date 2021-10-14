@@ -15,6 +15,7 @@ Ask book or article reviews through ticket creation.
 Post book or article reviews.  
 
 User can:  
+
     - login and register: a logout user can not access to the website,  
     - see the flow of recent tickets and reviews of the users that he is following, in an ascending order: most recent first,  
     - create new tickets to ask for a book or an article review,  
