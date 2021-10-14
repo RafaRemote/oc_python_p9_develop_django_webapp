@@ -108,8 +108,12 @@ flake8 --format=html --htmldir=flake8_report
 ## 6 - Important information about the database
 
 The database has been populated.  
+There is some reviews as well as some tickets.  
+Some users have followers.  
+Some users are followed.  
+
 For convenience here are the list of the users already in the database.  
 
-Names: rafa, ewa, bernardo, antoine, alice.  
+Names: rafa, ewa, bernardo, antoine, alice, boule.  
 Superuser: rafa.  
 Password: all users have the same password: 1q2w3e$$.  
