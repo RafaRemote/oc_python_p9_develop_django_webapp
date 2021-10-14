@@ -109,10 +109,10 @@ flake8 --format=html --htmldir=flake8_report
 The database has been populated.  
 For convenience here are the list of the users already in the database.  
 
-| name     | password | status    |  
+| name_____| password | status____|  
 |---------------------------------|  
-| rafa     | 1q2w3e$$ | superuser |  
-| ewa      | 1q2w3e$$ |           |  
-| bernardo | 1q2w3e$$ |           |  
-| antoine  | 1q2w3e$$ |           |  
-| alice    | 1q2w3e$$ |           |  
+| rafa_____| 1q2w3e$$ | superuser |  
+| ewa______| 1q2w3e$$ |___________|  
+| bernardo_| 1q2w3e$$ |___________|  
+| antoine__| 1q2w3e$$ |___________|  
+| alice____| 1q2w3e$$ |___________|  
