@@ -64,7 +64,7 @@
                         <div class="ticket_right_part">
                             {% if obj.id in already_answered %}
                                 <div class="warning">
-                                    <p>Ce ticket a déjà reçu une réponse</p>
+                                    <p class="text-center">Ce ticket a déjà reçu une réponse</p>
                                 </div>
                             {% else %}
                                 <form action="{% url 'answer' obj.id %}">
