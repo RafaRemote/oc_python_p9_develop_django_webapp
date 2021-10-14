@@ -27,7 +27,7 @@ html, body {
     margin: auto;
 }
 
-.flux-side-panel {
+.side-panel {
     position: fixed;
     width: 25%;
     border: 2px solid black;
@@ -201,8 +201,9 @@ h3, h4 {
     justify-content: space-between;
 }
 
-.width-75 {
-    width: 90%;
+.width-100 {
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .flux-log-container{
@@ -428,10 +429,6 @@ h3, h4 {
     background-color: rgba(255,0,0,.8)
 }
 
-.form {
-    box-sizing: border-box;
-}
-
 .critique-form {
     display: flex;
     flex-direction: column;
@@ -523,11 +520,12 @@ form > input {
 }
 
 .warning {
-    width: 50%;
+    width: 100%;
     box-sizing: border-box;
-    margin: auto;
-    background-color: rgba(255, 0, 0);
-    font-size: 1rem;
+    margin: 1rem auto;
+    background-color: rgba(255, 0, 0, .5);
+    font-size: 2rem;
+    font-weight: bold;
     color: white;
     text-shadow:
     -1px -1px 0 #000,  
@@ -535,12 +533,17 @@ form > input {
     -1px 1px 0 #000,
     1px 1px 0 #000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     border: 1px solid black;
     border-radius: 5px;
     padding: 1rem;
 
+}
+
+.fa-clipboard {
+    margin: 1rem;
 }
 
 .blink_me {

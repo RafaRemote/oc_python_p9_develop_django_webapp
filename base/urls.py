@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 
-
 urlpatterns = [
     path('', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
@@ -17,4 +16,3 @@ urlpatterns = [
     path('update-own-ticket/<str:pk>/', views.update_own_ticket, name='update-own-ticket'),
     path('delete/<str:i>/', views.delete, name='delete'),
 ]
- 

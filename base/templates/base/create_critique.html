@@ -10,15 +10,15 @@
 </div>
 
 <div class="main-container">
-    <div class="width-75">
+    <div class="width-100">
         <h1 class="page-title">Créer une critique</h1>
     </div>
-    <div class="width-75">
+    <div class="width-100">
         {% if message %}
             <p>{{message}}</p>
         {% endif %}
     </div>
-    <div class="width-75">
+    <div class="width-100">
         <div class="review">
             <form enctype="multipart/form-data" method="post" action="">
                 {% csrf_token%}

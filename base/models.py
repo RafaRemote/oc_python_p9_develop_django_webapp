@@ -12,14 +12,16 @@ class UserFollow(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name="followed_by"
                                       )
+
     class Meta:
         unique_together = ['user', 'followed_user', ]
 
 
 PRODUCT_CHOICES = (
-    ("Livre","Livre"),
-    ("Article","Article"),
+    ("Livre", "Livre"),
+    ("Article", "Article"),
 )
+
 
 class Ticket(models.Model):
     titre = models.CharField(max_length=128,
@@ -33,7 +35,7 @@ class Ticket(models.Model):
                              null=True,
                              blank=True
                              )
-    image = models.ImageField(upload_to ='images',
+    image = models.ImageField(upload_to='images',
                               null=True,
                               blank=True
                               )
@@ -50,31 +52,30 @@ class Review(models.Model):
                                     choices=PRODUCT_CHOICES,
                                     default="Livre"
                                     )
-    titre_produit = models.CharField(max_length=128
-                                    )
+    titre_produit = models.CharField(max_length=128)
     description_produit = models.TextField(max_length=8192,
                                            null=True,
                                            blank=True
                                            )
-    image_produit = models.ImageField(upload_to ='images',
-                                     null=True,
-                                     blank=True,
-                                     )
+    image_produit = models.ImageField(upload_to='images',
+                                      null=True,
+                                      blank=True,
+                                      )
     note = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)],
                                             blank=True
                                             )
     titre_critique = models.CharField(max_length=128,
-                                blank=True    
-    )
+                                      blank=True
+                                      )
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              null=True,
                              blank=True
                              )
     description_critique = models.TextField(max_length=8192,
-                            null=True,
-                            blank=True
-                            )
+                                            null=True,
+                                            blank=True
+                                            )
     time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -82,4 +83,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f'Produit: {self.titre_produit}, Son ticket: {self.ticket}'
-    

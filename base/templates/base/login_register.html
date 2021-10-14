@@ -28,6 +28,15 @@
             </p>
         </div>
     </div>
+    <div>
+        {% if message1 %}
+            <div class="warning blink">
+                <p class="blink_me">{{ message1 }}</p/>
+                <p class="blink_me">{{ message2 }}</p/>
+            </div>
+        {% endif %}
+    </div>
 </div>
+
 
 {% endblock content%}}

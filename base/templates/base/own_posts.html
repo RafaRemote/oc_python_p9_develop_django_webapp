@@ -3,14 +3,12 @@
 {% block content %}
 
 <div class="main-container">
-    <div class="width-75">
+    <div class="width-100">
         <h1 class="text-center page-title">{{ request.user|capfirst }}, voici vos publications !</h1>
     </div>
     <div class="width-100">
         {% if noitem %}
-            <div class="warning">
-                <p class="text-center">Vous n'avez encore rien publié... :'(</p>
-            </div>
+            {% include 'empty_snippet.html' %}
         {% endif %}
 
         {% for obj in all_posts%}

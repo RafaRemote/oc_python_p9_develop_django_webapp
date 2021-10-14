@@ -1,9 +1,16 @@
 {% extends 'main.html' %}
 
 {% block content %}
-
 <div class="main-container">
-    <h1 class="page-title">Register</h1>
+    <div>
+        {% if message1 != None %}
+            <div class="warning blink">
+                <p class="blink_me">{{ message1 }}</p/>
+                <p class="blink_me">{{ message2 }}</p/>
+            </div>
+        {% endif %}
+    </div>
+    <h1 class="page-title">Inscription</h1>
     <div class="register">
         <form method="POST" action="">
             {% csrf_token %}
@@ -14,15 +21,7 @@
             </div>
         </form>
     </div>
-    <div id="no_user">
-        {% if not_valid %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <p>{{message}}</p>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+    
 </div>
  
 

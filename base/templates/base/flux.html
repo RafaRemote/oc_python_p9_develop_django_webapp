@@ -5,7 +5,7 @@
         {% include 'follow_snippet.html' %}
     </div>  {% endcomment %}
     <div class="main-container">
-        <div class="width-75">
+        <div class="width-100">
             <h1 class="page-title">Flux</h1>
             <div class="flux-log-container">
                 <div>
@@ -24,18 +24,12 @@
                 </div>
             </div>
         </div>
-        <div class="width-75">
-            {% if noitem == True and followeds %}
-                <div class="warning">
-                    <p class="text-center">Vous n'avez encore rien publié et les utilisateurs que vous suivez non plus...</p>
-                </div>
-            {% elif noitem == True %}
-                <div class="warning">
-                    <p class="text-center">Vous n'avez encore rien publié et vous ne suivez encore personne...</p>
-                </div>
+        <div class="width-100">      
+            {% if noitem == True %}
+                {% include "empty_snippet.html" %}
             {% endif %}
         </div>
-        <div class="width-75">
+        <div class="width-100">
             {% for obj in all_obj %}
                 {% if obj.titre %}
                     <div class="ticket">
