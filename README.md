@@ -7,6 +7,7 @@ Menu
 3. Installation
 4. Execution of the program
 5. flake8 report
+6. Important information about the database
 
 ## 1 - Usage
 
@@ -102,3 +103,16 @@ be sure to be in the root folder 'litreview', then type:
 ```python
 flake8 --format=html --htmldir=flake8_report
 ```
+
+## 6 - Important information about the database
+
+The database has been populated.  
+For convenience here are the list of the users already in the database.  
+
+| name     | password | status    |  
+|---------------------------------|  
+| rafa     | 1q2w3e$$ | superuser |  
+| ewa      | 1q2w3e$$ |           |  
+| bernardo | 1q2w3e$$ |           |  
+| antoine  | 1q2w3e$$ |           |  
+| alice    | 1q2w3e$$ |           |  
