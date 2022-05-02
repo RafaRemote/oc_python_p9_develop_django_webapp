@@ -1,5 +1,5 @@
 asgiref==3.4.1
-Django==3.2.12
+Django>=3.2.13
 flake8==4.0.1
 flake8-html==0.4.1
 importlib-metadata==4.8.1
